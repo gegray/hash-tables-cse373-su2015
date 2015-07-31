@@ -5,10 +5,10 @@ import java.io.IOException;
 import providedCode.*;
 
 /**
- * @author <name>
- * @UWNetID <uw net id>
- * @studentID <id number>
- * @email <email address>
+ * @author Geoff Gray, Austin Meyers
+ * @UWNetID gegray, arm38
+ * @studentID 1463717, 1228316
+ * @email gegray@uw.edu, arm38@uw.edu
  * 
  *        TODO: REPLACE this comment with your own as appropriate.
  * 
