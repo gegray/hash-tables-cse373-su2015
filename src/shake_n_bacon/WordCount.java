@@ -14,9 +14,14 @@ public class WordCount {
 	// Implement a method that returns an array of DataCount objects
 	// containing each unique word.
 	private static DataCount[] getCountsArray(DataCounter counter) {
-		System.err.println("Must implement getCountsArray in WordCount");
-		System.exit(1);
-		return null;
+		DataCount[] alt = new DataCount[counter.getSize()];
+		SimpleIterator tempIterator = counter.getIterator();
+		int index = 0;
+		while (tempIterator.hasNext()) {
+			alt[index] = tempIterator.next();
+			index++;
+		}
+		return alt;
 	}
 
 	// ////////////////////////////////////////////////////////////////////////

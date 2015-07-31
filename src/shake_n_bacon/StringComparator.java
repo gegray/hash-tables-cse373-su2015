@@ -3,7 +3,7 @@ package shake_n_bacon;
 import providedCode.*;
 
 /**
- * @author Geoff Gray, Austin Myers
+ * @author Geoff Gray, Austin Meyers
  * @UWNetID gegray, <fill in>
  * @studentID 1463717, <fill in>
  * @email gegray@uw.edu, <fill in>
