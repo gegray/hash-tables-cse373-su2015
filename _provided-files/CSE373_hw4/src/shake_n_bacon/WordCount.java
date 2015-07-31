@@ -49,7 +49,7 @@ public class WordCount {
 	 * the same count, they should be ordered according to the comparator. This
 	 * code uses insertion sort. The code is generic, but in this project we use
 	 * it with DataCount and DataCountStringComparator.
-	 * 
+	 * jsadlikjghslkjterwlk
 	 * @param counts array to be sorted.
 	 * 
 	 * @param comparator for comparing elements.
