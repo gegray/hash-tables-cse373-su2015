@@ -18,8 +18,8 @@ public class StringHasher implements Hasher {
 		int hashKey = 0;
 		for(int i = 0; i <str.length(); i++){
 			hashKey += Math.abs(str.charAt(i) - 'a');
-			hashKey *= 5;
-			hashKey %= 500007;
+			hashKey *= 7;
+			hashKey %= 200003;
 		}
 		return hashKey;
 	}
