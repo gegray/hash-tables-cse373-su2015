@@ -3,10 +3,10 @@ package shake_n_bacon;
 import providedCode.*;
 
 /**
- * @author <name>
- * @UWNetID <uw net id>
- * @studentID <id number>
- * @email <email address>
+ * @author Geoff Gray, Austin Myers
+ * @UWNetID gegray, <fill in>
+ * @studentID 1463717, <fill in>
+ * @email gegray@uw.edu, <fill in>
  * 
  *        TODO: REPLACE this comment with your own as appropriate.
  * 
@@ -38,3 +38,7 @@ public class StringComparator implements Comparator<String> {
 		return 0;
 	}
 }
+
+// 80 char line limit, resize window to end at last "0"
+// delete before turn-in
+//345678901234567890123456789012345678901234567890123456789012345678901234567890
