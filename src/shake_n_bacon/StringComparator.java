@@ -4,9 +4,9 @@ import providedCode.*;
 
 /**
  * @author Geoff Gray, Austin Meyers
- * @UWNetID gegray, <fill in>
- * @studentID 1463717, <fill in>
- * @email gegray@uw.edu, <fill in>
+ * @UWNetID gegray, arm38
+ * @studentID 1463717, 1228316
+ * @email gegray@uw.edu, arm38@uw.edu
  * 
  *        TODO: REPLACE this comment with your own as appropriate.
  * 

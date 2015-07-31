@@ -3,10 +3,10 @@ package shake_n_bacon;
 import providedCode.*;
 
 /**
- * @author <name>
- * @UWNetID <uw net id>
- * @studentID <id number>
- * @email <email address>
+ * @author Geoff Gray, Austin Meyers
+ * @UWNetID gegray, arm38
+ * @studentID 1463717, 1228316
+ * @email gegray@uw.edu, arm38@uw.edu
  * 
  *        TODO: Replace this comment with your own as appropriate.
  * 
@@ -34,6 +34,20 @@ import providedCode.*;
  *        TODO: Develop appropriate tests for your HashTable.
  */
 public class HashTable_SC extends DataCounter {
+	
+	private class Node {
+		public DataCount data;
+		public Node next;
+		
+		public Node(DataCount data) {
+			this(data, null);
+		}
+		
+		public Node(DataCount data, Node next) {
+			this.data = data;
+			this.next = next;
+		}
+	}
 
 	public HashTable_SC(Comparator<String> c, Hasher h) {
 		// TODO: To-be implemented
