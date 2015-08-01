@@ -1,3 +1,4 @@
+package shake_n_bacon;
 // Testing for StringComparator
 
 public class TestStringComparator {
