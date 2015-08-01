@@ -28,17 +28,29 @@ import providedCode.*;
  *        their return values should have the same sign (+,- or 0).
  */
 public class StringComparator implements Comparator<String> {
-
 	/**
 	 * TODO Replace this comment with your own as appropriate.
 	 */
 	@Override
 	public int compare(String s1, String s2) {
-		// TODO: To-be implemented
-		return 0;
+		int len1 = s1.length();
+      int len2 = s2.length();
+      String s1lc = s1.toLowerCase();
+      String s2lc = s2.toLowerCase();
+      int minLen = Math.min(len1, len2);
+		int i = 0;
+      while (i < minLen) {
+         int charCompare = s1lc.charAt(i) - s2lc.charAt(i);
+         if (charCompare == 0) {
+            i++;
+         } else {
+            return charCompare;
+         }
+      }
+      if (len1 != len2) {
+         return len1 - len2;
+      }
+      return 0;
 	}
+   
 }
-
-// 80 char line limit, resize window to end at last "0"
-// delete before turn-in
-//345678901234567890123456789012345678901234567890123456789012345678901234567890
