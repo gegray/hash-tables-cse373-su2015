@@ -75,5 +75,9 @@ public class HashTable_SC extends DataCounter {
 	public SimpleIterator getIterator() {
 		return null;
 	}
+	
+	private void resize() {
+		
+	}
 
 }
