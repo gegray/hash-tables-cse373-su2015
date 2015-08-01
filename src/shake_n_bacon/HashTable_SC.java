@@ -36,8 +36,10 @@ import providedCode.*;
 public class HashTable_SC extends DataCounter {
 	private int size;
 	private Comparator<String> comp;
-	private Hasher hash;
-	
+	private Hasher hashr;
+	private int[] primesList;
+	private int listPos;
+	private Node[] arrayHash;
 	
 	private class Node {
 		public DataCount data;
@@ -55,7 +57,10 @@ public class HashTable_SC extends DataCounter {
 
 	public HashTable_SC(Comparator<String> c, Hasher h) {
 		comp = c;
-		hash = h;
+		hashr = h;
+		primesList = new int[]{11, 23, 47, 97, 199, 401, 809, 1607, 3019, 6043,
+   				12097, 24203, 48409, 97001, 200003};
+		listPos = 1;
 	}
 
 	@Override
