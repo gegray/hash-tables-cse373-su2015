@@ -35,6 +35,9 @@ import providedCode.*;
  */
 public class HashTable_SC extends DataCounter {
 	private int size;
+	private Comparator<String> comp;
+	private Hasher hash;
+	
 	
 	private class Node {
 		public DataCount data;
@@ -51,7 +54,8 @@ public class HashTable_SC extends DataCounter {
 	}
 
 	public HashTable_SC(Comparator<String> c, Hasher h) {
-		// TODO: To-be implemented
+		comp = c;
+		hash = h;
 	}
 
 	@Override
