@@ -34,6 +34,7 @@ import providedCode.*;
  *        TODO: Develop appropriate tests for your HashTable.
  */
 public class HashTable_SC extends DataCounter {
+	private int size;
 	
 	private class Node {
 		public DataCount data;
@@ -61,7 +62,7 @@ public class HashTable_SC extends DataCounter {
 	@Override
 	public int getSize() {
 		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
