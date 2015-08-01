@@ -59,8 +59,8 @@ public class HashTable_SC extends DataCounter {
 		comp = c;
 		hashr = h;
 		
-		primesList = new int[]{11, 23, 47, 97, 199, 401, 809, 1607, 3019, 6043,
-   				12097, 24203, 48409, 97001, 200003};
+		primesList = new int[]{13, 29, 61, 127, 257, 521, 1049, 2099, 4201, 8419,
+   				16843, 33703, 67409, 134837, 269683};
 		
 		arrayHash = new Node[primesList[0]];
 		listPos = 1;
@@ -68,7 +68,7 @@ public class HashTable_SC extends DataCounter {
 
 	@Override
 	public void incCount(String data) {
-		if((size/arrayHash.length) == 1){
+		if(size == arrayHash.length){
 			sizeUp();
 		}
 	}
