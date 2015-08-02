@@ -35,22 +35,42 @@ import providedCode.*;
  *        TODO: Develop appropriate tests for your HashTable.
  */
 public class HashTable_OA extends DataCounter {
+	private Comparator<String> comp; // string comparator
+	private Hasher hashr;            // hash function
+	private int[] primesList;        // list of primes (~double up to ~200,000)
+   private int primesListIndex;     // index of current hash table size
+   private DataCount[] hashTable;   // hash table (as array)
+   private int size;                // number of entered elements
 
 	public HashTable_OA(Comparator<String> c, Hasher h) {
 		// TODO: To-be implemented
+      comp = c;
+		hashr = h;
+		primesList = new int[]{13, 29, 61, 127, 257, 521, 1049, 2099, 4201, 8419,
+                             16843, 33703, 67409, 134837, 269683};
+      primesListIndex = 0;
+      hashTable = new DataCount[primesListIndex];
 	}
 
 	@Override
 	public void incCount(String data) {
 		// TODO Auto-generated method stub
+      
 	}
-
+   
+   /**
+    * Returns an integer value for the number of words in the hash table. 
+    * Repeated words are only recorded once.
+    */
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
+   /**
+    * Returns an integer value for the number of times the word has been recorded
+    * in the hash table.
+    */
 	@Override
 	public int getCount(String data) {
 		// TODO Auto-generated method stub
@@ -60,7 +80,22 @@ public class HashTable_OA extends DataCounter {
 	@Override
 	public SimpleIterator getIterator() {
 		// TODO Auto-generated method stub
-		return null;
+      SimpleIterator iteratr = new SimpleIterator() {
+         
+      };
+		return iteratr;
 	}
+   
+   private double getLoadFactor() {
+      return (double) size / hashTable.length;
+   }
+   
+   private boolean isHalfLoaded() {
+      return getLoadFactor() > 0.5;
+   }
+   
+   private void doubleCapacity() {
+      SimpleIterator iteratr = getIterator();
+   }
 
 }
