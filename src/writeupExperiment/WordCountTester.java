@@ -11,7 +11,7 @@ import java.io.IOException;
  * all the strings in a given file
  */
 public class WordCountTester {
-
+	
 	//Using a simpleIterator to iterate through a datacounter to
 	//store an iterable list that can be printed
 	private static DataCount[] getCountsArray(DataCounter counter) {
@@ -104,5 +104,6 @@ public class WordCountTester {
 		countWords(args[1], counter);
 		DataCount[] counts = getCountsArray(counter);
 		insertionSort(counts, new DataCountStringComparator());
+		System.out.print("Total words = ");
 	}
 }
