@@ -54,8 +54,8 @@ public class Correlator {
          DataCount tempdc = itr.next();
          String tempWord = tempdc.data;
          if (dc2.getCount(tempWord) > 0) {
-            double freq1 = (double) tempdc.count / wordCount1;
-            double freq2 = (double) dc2.getCount(tempWord) / wordCount2;
+            double freq1 = (double) tempdc.count / (double) wordCount1;
+            double freq2 = (double) dc2.getCount(tempWord) / (double) wordCount2;
             if (isNotAnExtreme(freq1) && isNotAnExtreme(freq2)) {
                double freqDif = Math.abs(freq2 - freq1);
                variance += Math.pow(freqDif, 2);

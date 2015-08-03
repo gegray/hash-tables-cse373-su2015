@@ -158,7 +158,7 @@ public class HashTable_OA extends DataCounter {
       primesListIndex++;
       hashTable = new DataCount[primesList[primesListIndex]];
       size = 0;
-      while (itr.next() != null) {
+      while (itr.hasNext()) {
          DataCount d = itr.next();
          for (int i = 0; i < d.count; i++) {
             incCount(d.data);

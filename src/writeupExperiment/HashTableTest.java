@@ -51,6 +51,8 @@ public class HashTableTest {
       
       SimpleIterator itr = dc.getIterator();
       int itr8s = 0;
-      //while (itr
+      while (itr.hasNext()) {
+         
+      }
    }
 }
