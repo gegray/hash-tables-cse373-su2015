@@ -48,7 +48,7 @@ public class HashTableTest {
       System.out.println("Total unique words: " + countUnique);
       System.out.println("getSize method returns : " + dc.getSize());
       
-      
+
       for (int i = 1; i <= 5; i++) {
          String word = words[i];
          System.out.println("Getting count of: '" + word + "'");
