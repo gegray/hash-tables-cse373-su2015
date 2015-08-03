@@ -79,7 +79,7 @@ public class Correlator {
 			while (word != null) {
 				counter.incCount(word);
 				word = reader.nextWord();
-            result++;
+				result++;
 			}
 		} catch (IOException e) {
 			System.err.println("Error processing " + file + " " + e);
