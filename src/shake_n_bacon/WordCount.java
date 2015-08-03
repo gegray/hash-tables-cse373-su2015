@@ -5,14 +5,13 @@ import java.io.IOException;
 import providedCode.*;
 
 /**
- * An executable that counts the words in a files and prints out the counts in
+ * An executable that counts the words in a file and prints out the counts in
  * descending order. You will need to modify this file.
  */
 public class WordCount {
 
-	// TODO: Replace this comment with your own as appropriate.
-	// Implement a method that returns an array of DataCount objects
-	// containing each unique word.
+	//Using a simpleIterator to iterate through a datacounter to
+	//store an iterable list that can be printed
 	private static DataCount[] getCountsArray(DataCounter counter) {
 		DataCount[] alt = new DataCount[counter.getSize()];
 		SimpleIterator tempIterator = counter.getIterator();
