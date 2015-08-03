@@ -8,18 +8,18 @@ import providedCode.*;
  * @studentID 1463717, 1228316
  * @email gegray@uw.edu, arm38@uw.edu
  * 
+ * Creates a hash table that uses separate chaining to implement
+ * the data structure. 
 **/
 
-//Creates a hash table that uses separate chaining to implement
-//the data structure
 public class HashTable_SC extends DataCounter {
-	//Declare global fields
-	private int size;
-	private Comparator<String> comp;
-	private Hasher hasher;
-	private int[] primesList;
-	private int listPos;
-	private Node[] arrayHash;
+	private Comparator<String> comp; // string comparator
+	private Hasher hashr;            // hash function
+	private int[] primesList;        // list of primes (~double up to ~200,000)
+   private int primesListIndex;     // index of current hash table size
+   private Node[] hashTable;   		// hash table (as array + linked list)
+   private int size;                // number of entered elements
+   
 	
 	//Private class of nodes for a linked list
 	private class Node {
@@ -27,7 +27,7 @@ public class HashTable_SC extends DataCounter {
 		public Node next;
 		
 		//Constructor that takes in 1 argument,
-		//which is just the data input
+		//which is the data input
 		public Node(DataCount data) {
 			this(data, null);
 		}
@@ -46,7 +46,7 @@ public class HashTable_SC extends DataCounter {
 	public HashTable_SC(Comparator<String> c, Hasher h) {
 		//Initialize the hasher and comparator to global scope
 		comp = c;
-		hasher = h;
+		hashr = h;
 		
 		//Create a list of primes from resizing and hashing
 		primesList = new int[]{13, 29, 61, 127, 257, 521, 1049, 2099, 4201, 8419,
@@ -54,34 +54,36 @@ public class HashTable_SC extends DataCounter {
 		
 		//Create the hash table and update the list position for the
 		//list of primes
-		arrayHash = new Node[primesList[0]];
-		listPos += 1;
+		hashTable = new Node[primesList[0]];
+		primesListIndex = 0;
 	}
 
 	@Override
 	public void incCount(String data) {
-		if(size == arrayHash.length){
+		if (size / hashTable.length == 1) {
 			sizeUp();
 		}
-		int index = (hasher.hash(data) % arrayHash.length);
-		if (arrayHash[index] == null) {
-			arrayHash[index] = new Node(new DataCount(data, 1), null);
+		int hashIndex = hashr.hash(data) % hashTable.length;
+		
+		if (hashTable[hashIndex] == null) {
+			DataCount temp = new DataCount(data, 1);
+			hashTable[hashIndex] = new Node(temp);
 			size++;
-		} else {
-			Node curr = arrayHash[index];
-			boolean found = false;
-			while (curr != null) {
-				if (comp.compare(curr.data.data, data) == 0) {
-					found = true;
-					curr.data.count++;
+		} else {	
+			Node current = hashTable[hashIndex];
+			boolean exists = false;
+			while (current != null) {
+				if (comp.compare(current.data.data, data) == 0) {
+					current.data.count++;
+					exists = true;
 				}
-				curr = curr.next;
+				current = current.next;
 			}
-			if (!found) {
-				DataCount count = new DataCount(data, 1);
-				Node add = new Node(count);
-				add.next = arrayHash[index];
-				arrayHash[index] = add;
+			if (!exists) {
+				DataCount newDataCount = new DataCount(data, 1);
+				Node newDataNode = new Node(newDataCount);
+				newDataNode.next = hashTable[hashIndex];
+				hashTable[hashIndex] = newDataNode;
 				size++;
 			}
 		}
@@ -98,8 +100,8 @@ public class HashTable_SC extends DataCounter {
 	//Returns the count of the value as an int
 	@Override
 	public int getCount(String data) {
-		int index = hasher.hash(data) % arrayHash.length;
-		Node curr = arrayHash[index];
+		int index = hashr.hash(data) % hashTable.length;
+		Node curr = hashTable[index];
 		while (curr != null) {
 			if (comp.compare(curr.data.data, data) == 0) {
 				return curr.data.count;
@@ -116,8 +118,8 @@ public class HashTable_SC extends DataCounter {
 			int index = 0;
 			int tempSize = size;
 			int tempIndex = index;
-			Node[] data = arrayHash;
-			Node curr = arrayHash[index];
+			Node[] data = hashTable;
+			Node curr = hashTable[index];
 			
 			//Method returns the next node in the hash table
 			public DataCount next() {					
@@ -149,10 +151,10 @@ public class HashTable_SC extends DataCounter {
 	//Doubles the size of the Hash Table 
 	//to a near prime, and adds the values into the table
 	private void sizeUp() {
-		size = 0;
 		SimpleIterator tempIt = getIterator();
-		arrayHash = new Node[primesList[listPos]];
-		listPos++;
+		hashTable = new Node[primesList[primesListIndex]];
+		primesListIndex++;
+		size = 0;
 		while (tempIt.hasNext()) {
 			DataCount val = tempIt.next();
 			for (int i = 0; i < val.count; i++) {
