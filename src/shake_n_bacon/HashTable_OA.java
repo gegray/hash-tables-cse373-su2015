@@ -8,31 +8,9 @@ import providedCode.*;
  * @studentID 1463717, 1228316
  * @email gegray@uw.edu, arm38@uw.edu
  * 
- *        TODO: Replace this comment with your own as appropriate.
- * 
- *        1. You may implement HashTable with open addressing discussed in
- *        class; You can choose one of those three: linear probing, quadratic
- *        probing or double hashing. The only restriction is that it should not
- *        restrict the size of the input domain (i.e., it must accept any key)
- *        or the number of inputs (i.e., it must grow as necessary).
- * 
- *        2. Your HashTable should rehash as appropriate (use load factor as
- *        shown in the class).
- * 
- *        3. To use your HashTable for WordCount, you will need to be able to
- *        hash strings. Implement your own hashing strategy using charAt and
- *        length. Do NOT use Java's hashCode method.
- * 
- *        4. HashTable should be able to grow at least up to 200,000. We are not
- *        going to test input size over 200,000 so you can stop resizing there
- *        (of course, you can make it grow even larger but it is not necessary).
- * 
- *        5. We suggest you to hard code the prime numbers. You can use this
- *        list: http://primes.utm.edu/lists/small/100000.txt NOTE: Make sure you
- *        only hard code the prime numbers that are going to be used. Do NOT
- *        copy the whole list!
- * 
- *        TODO: Develop appropriate tests for your HashTable.
+ * The HashTable_OA class is a hash table with open addressing and linear
+ * probing. This class supports up to ~200,000 unique elements, duplicates 
+ * are handled by incrementing a count. 
  */
 public class HashTable_OA extends DataCounter {
 	private Comparator<String> comp; // string comparator
@@ -41,26 +19,56 @@ public class HashTable_OA extends DataCounter {
    private int primesListIndex;     // index of current hash table size
    private DataCount[] hashTable;   // hash table (as array)
    private int size;                // number of entered elements
-
+   
+   /**
+    * Constructs a new HashTable_OA object.
+    */
 	public HashTable_OA(Comparator<String> c, Hasher h) {
-		// TODO: To-be implemented
       comp = c;
 		hashr = h;
 		primesList = new int[]{13, 29, 61, 127, 257, 521, 1049, 2099, 4201, 8419,
                              16843, 33703, 67409, 134837, 269683};
       primesListIndex = 0;
       hashTable = new DataCount[primesListIndex];
+      size = 0;
 	}
 
+   /**
+    * Adds the passed string to the hash table. If the provided string was not 
+    * found in the table, a new data count is added. Otherwise, increments the 
+    * count of the string in the current hash table. 
+    */
 	@Override
-	public void incCount(String data) {
-		// TODO Auto-generated method stub
-      
-	}
+	public void incCount(String data) { 
+      if (isHalfLoaded()) { 
+         doubleCapacity();
+      }
+      int hIndex = hashr.hash(data) % hashTable.length;
+      if (hashTable[hIndex] == null) { 
+         hashTable[hIndex] = new DataCount(data, 1);
+         size++;
+      } else {
+         boolean found = false;
+         int incr = 1;
+         while (!found) { 
+            if (hashTable[hIndex] == null) { 
+               DataCount d = new DataCount(data, 1);
+               hashTable[hIndex] = d;
+               size++;
+               found = true;
+            } else if (comp.compare(hashTable[hIndex].data, data) == 0) {
+               hashTable[hIndex].count++;
+               found = true;
+            } else {
+               hIndex = (hashr.hash(data) + incr) % hashTable.length; 
+               incr++;
+            }	
+         }
+      }
+   }
    
    /**
-    * Returns an integer value for the number of words in the hash table. 
-    * Repeated words are only recorded once.
+    * Returns an integer value for the number of unique words in the hash table. 
     */
 	@Override
 	public int getSize() {
@@ -69,33 +77,93 @@ public class HashTable_OA extends DataCounter {
 
    /**
     * Returns an integer value for the number of times the word has been recorded
-    * in the hash table.
+    * in the hash table. Returns 0 if the string was not found.
     */
 	@Override
 	public int getCount(String data) {
-		// TODO Auto-generated method stub
+      int hIndex = hashr.hash(data) % hashTable.length;
+      int incr = 1;
+      boolean found = false;
+      if (hashTable[hIndex] != null) {
+         String curr = hashTable[hIndex].data;
+         while (!found) {
+            if (comp.compare(curr, data) == 0) {
+               found = true;
+               return hashTable[hIndex].count;
+            } else {
+               hIndex = (hashr.hash(data) + incr) % hashTable.length;
+               if (hashTable[hIndex] == null) {
+                  found = true;
+                  return 0;
+               } else {
+                  curr = hashTable[hIndex].data;
+                  incr++;
+               }
+            }
+         }
+      }
 		return 0;
 	}
 
+   /**
+    * Returns a new iterator object for this hash table. next() returns the next 
+    * value in the hash table. hasNext() returns whether or not the hash table 
+    * has another value after the value currently being referenced. 
+    */
 	@Override
 	public SimpleIterator getIterator() {
-		// TODO Auto-generated method stub
-      SimpleIterator iteratr = new SimpleIterator() {
+      SimpleIterator itr = new SimpleIterator() {
+         DataCount[] tempHashTable = hashTable;
+         int index = 0;
+         int tempSize = size;
          
+         @Override
+         public DataCount next() {
+            if (!hasNext()) {
+               return null;
+            } else {
+               DataCount d = tempHashTable[index];
+               while (d == null) {
+                  index++;
+                  d = tempHashTable[index];
+               }
+               index++;
+               tempSize--;
+               return d;
+            }
+         }
+         
+         @Override
+         public boolean hasNext() {
+            return tempSize > 0;
+         }
       };
-		return iteratr;
+      return itr;
 	}
    
-   private double getLoadFactor() {
-      return (double) size / hashTable.length;
-   }
-   
+   /**
+    * Returns whether or not the hash table is over half filled.
+    */
    private boolean isHalfLoaded() {
-      return getLoadFactor() > 0.5;
+      double loadFactor = (double) (size / hashTable.length);
+      return loadFactor > 0.5;
    }
    
+   /**
+    * Resizes the hash table to roughly double capacity. Maximum capacity is 
+    * ~200,000.
+    */
    private void doubleCapacity() {
-      SimpleIterator iteratr = getIterator();
+      SimpleIterator itr = getIterator();
+      primesListIndex++;
+      hashTable = new DataCount[primesList[primesListIndex]];
+      size = 0;
+      while (itr.next() != null) {
+         DataCount d = itr.next();
+         for (int i = 0; i < d.count; i++) {
+            incCount(d.data);
+         }
+      }
    }
 
 }
