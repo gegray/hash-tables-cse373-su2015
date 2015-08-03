@@ -29,7 +29,7 @@ public class HashTable_OA extends DataCounter {
 		primesList = new int[]{13, 29, 61, 127, 257, 521, 1049, 2099, 4201, 8419,
                              16843, 33703, 67409, 134837, 269683};
       primesListIndex = 0;
-      hashTable = new DataCount[primesListIndex];
+      hashTable = new DataCount[primesList[primesListIndex]];
       size = 0;
 	}
 
@@ -142,10 +142,10 @@ public class HashTable_OA extends DataCounter {
 	}
    
    /**
-    * Returns whether or not the hash table is over half filled.
+    * Returns whether or not the hash table is, roughly, over half filled.
     */
    private boolean isHalfLoaded() {
-      double loadFactor = (double) (size / hashTable.length);
+      double loadFactor = (double) size / hashTable.length;
       return loadFactor > 0.5;
    }
    
