@@ -10,31 +10,88 @@ import providedCode.*;
  * @studentID 1463717, 1228316
  * @email gegray@uw.edu, arm38@uw.edu
  * 
- *        TODO: REPLACE this comment with your own as appropriate.
+ * The Correlator class calculate word counts for two documents and uses each 
+ * document's length to create normalized frequencies, ignoring words whose 
+ * normalized frequencies (in either document) are too high or too low to be 
+ * useful. Calculates a the difference metric, which corresponds to the square 
+ * of the Euclidean distance between two vectors in the space of shared words 
+ * in two documents. Note that this ignores any word that does not appear in 
+ * both documents, which is probably the biggest weakness of this metric.
  * 
- *        This should be done using a *SINGLE* iterator. This means only 1
- *        iterator being used in Correlator.java, *NOT* 1 iterator per
- *        DataCounter (You should call dataCounter.getIterator() just once in
- *        Correlator.java). Hint: Take advantage of DataCounter's method.
- * 
- *        Although you can share argument processing code with WordCount, it
- *        will be easier to copy & paste it from WordCount and modify it here -
- *        it is up to you. Since WordCount does not have states, making private
- *        method public to share with Correlator is OK. In general, you are not
- *        forbidden to make private method public, just make sure it does not
- *        violate style guidelines.
- * 
- *        Make sure WordCount and Correlator do not print anything other than
- *        what they are supposed to print (e.g. do not print timing info, input
- *        size). To avoid this, copy these files into package writeupExperiment
- *        and change it there as needed for your write-up experiments.
  */
 public class Correlator {
+   // frequency cutoff value for excluding abnormal values.
+   // try changing for testing.
+   public static final double LO_FREQ_CUTOFF = 0.0001;
+   // frequency cutoff value for excluding abnormal values.
+   // try changing for testing.
+   public static final double HI_FREQ_CUTOFF = 0.01;
 
 	public static void main(String[] args) {
-		// TODO: Compute this variance
-		double variance = 0.0;
+      double variance = 0.0;
+      DataCounter dc1 = null;
+      DataCounter dc2 = null;
+      StringComparator sc1 = new StringComparator();
+      StringComparator sc2 = new StringComparator();
+      StringHasher sh1 = new StringHasher();
+      StringHasher sh2 = new StringHasher();
+      
+      if (args[0].equals("-s")) {
+         dc1 = new HashTable_SC(sc1, sh1);
+         dc2 = new HashTable_SC(sc2, sh2);
+      } else if (args[0].equals("-o")) {
+         dc1 = new HashTable_OA(sc1, sh1);
+         dc2 = new HashTable_OA(sc2, sh2);
+      } else {
+         System.out.println("Bad args. Try again. ");
+      }
+      
+      int wordCount1 = countWords(args[1], dc1);
+      int wordCount2 = countWords(args[2], dc2);
+      
+      SimpleIterator itr = dc1.getIterator();
+      while (itr.hasNext()) {
+         DataCount tempdc = itr.next();
+         String tempWord = tempdc.data;
+         if (dc2.getCount(tempWord) > 0) {
+            double freq1 = (double) tempdc.count / wordCount1;
+            double freq2 = (double) dc2.getCount(tempWord) / wordCount2;
+            if (!isAnExtreme(freq1) && !isAnExtreme(freq2)) {
+               double freqDif = Math.abs(freq2 - freq1);
+               variance += Math.pow(freqDif, 2);
+            }
+         }
+      }
+      
 		// IMPORTANT: Do not change printing format. Just print the double.
 		System.out.println(variance);
 	}
+   
+   /**
+    * Reads in a file as a string and counts them with the passed data counter.
+    * Returns the total number of words in the file.
+    */
+   private static int countWords(String file, DataCounter counter) {
+      int result = 0;
+		try {
+			FileWordReader reader = new FileWordReader(file);
+			String word = reader.nextWord();
+			while (word != null) {
+				counter.incCount(word);
+				word = reader.nextWord();
+            result++;
+			}
+		} catch (IOException e) {
+			System.err.println("Error processing " + file + " " + e);
+			System.exit(1);
+		}
+      return result;
+	}   
+   /**
+    * Returns whether or not either of the given percentages an extreme case
+    * (greater than 1% or lesser than 0.01%)
+    */
+   private static boolean isAnExtreme(double d1) {
+      return d1 > 0.01 || d1 < 0.0001;
+   }
 }
