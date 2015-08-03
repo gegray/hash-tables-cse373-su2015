@@ -10,7 +10,7 @@ import providedCode.*;
  * @studentID 1463717, 1228316
  * @email gegray@uw.edu, arm38@uw.edu
  * 
- * The Correlator class calculate word counts for two documents and uses each 
+ * The Correlator class calculates word counts for two documents and uses each 
  * document's length to create normalized frequencies, ignoring words whose 
  * normalized frequencies (in either document) are too high or too low to be 
  * useful. Calculates a the difference metric, which corresponds to the square 
@@ -56,7 +56,7 @@ public class Correlator {
          if (dc2.getCount(tempWord) > 0) {
             double freq1 = (double) tempdc.count / wordCount1;
             double freq2 = (double) dc2.getCount(tempWord) / wordCount2;
-            if (!isAnExtreme(freq1) && !isAnExtreme(freq2)) {
+            if (isNotAnExtreme(freq1) && isNotAnExtreme(freq2)) {
                double freqDif = Math.abs(freq2 - freq1);
                variance += Math.pow(freqDif, 2);
             }
@@ -91,7 +91,7 @@ public class Correlator {
     * Returns whether or not either of the given percentages an extreme case
     * (greater than 1% or lesser than 0.01%)
     */
-   private static boolean isAnExtreme(double d1) {
-      return d1 > 0.01 || d1 < 0.0001;
+   private static boolean isNotAnExtreme(double d) {
+      return (d > LO_FREQ_CUTOFF && d < HI_FREQ_CUTOFF);
    }
 }
