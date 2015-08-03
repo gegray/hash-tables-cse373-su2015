@@ -21,9 +21,16 @@ public class HashTableTest {
       DataCounter sc = new HashTable_SC(c, h);
    	DataCounter oa = new HashTable_OA(c, h);
       
+      System.out.println("Testing HashTable_SC: ");
+      testDataCounter(sc);
+      System.out.println("END Testing HashTable_SC");
+      System.out.println();
+      
       System.out.println("Testing HashTable_OA: ");
       testDataCounter(oa);
-      //testIterator(sc);
+      System.out.println("END Testing HashTable_OA");
+      System.out.println();
+      
    }
    
    public static void testDataCounter(DataCounter dc) {
@@ -40,7 +47,7 @@ public class HashTableTest {
       }
       System.out.println("Total unique words: " + countUnique);
       System.out.println("getSize method returns : " + dc.getSize());
-      System.out.println("Total incCounts: " + countAll);
+      
       
       for (int i = 1; i <= 5; i++) {
          String word = words[i];
@@ -52,7 +59,10 @@ public class HashTableTest {
       SimpleIterator itr = dc.getIterator();
       int itr8s = 0;
       while (itr.hasNext()) {
-         
+         DataCount curr = itr.next();
+         itr8s++;
       }
+      System.out.println("Total incCounts: " + countAll);
+      System.out.println("Iterator found : " + itr8s);
    }
 }
