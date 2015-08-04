@@ -5,7 +5,7 @@ import shake_n_bacon.*;
 
 public class HashTiming {
 	public static void main(String[] args) {
-		System.out.println("WordCount = " + "Num Tests = 100 time = " + getAverageRuntime(args, 100, 1));
+		System.out.println("Num Tests = 100 Average time = " + getAverageRuntime(args, 100, 10) + " ms");
 	}
 	
 	

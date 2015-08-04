@@ -44,30 +44,6 @@ public class WordCountTester {
 	}
 
 	/*
-	 * Sort the count array in descending order of count. If two elements have
-	 * the same count, they should be ordered according to the comparator. This
-	 * code uses insertion sort. The code is generic, but in this project we use
-	 * it with DataCount and DataCountStringComparator.
-	 * 
-	 * @param counts array to be sorted.
-	 * 
-	 * @param comparator for comparing elements.
-	 */
-	private static <E> void insertionSort(E[] array, Comparator<E> comparator) {
-		for (int i = 1; i < array.length; i++) {
-			E x = array[i];
-			int j;
-			for (j = i - 1; j >= 0; j--) {
-				if (comparator.compare(x, array[j]) >= 0) {
-					break;
-				}
-				array[j + 1] = array[j];
-			}
-			array[j + 1] = x;
-		}
-	}
-
-	/*
 	 * Print error message and exit
 	 */
 	private static void usage() {
@@ -103,7 +79,5 @@ public class WordCountTester {
 
 		countWords(args[1], counter);
 		DataCount[] counts = getCountsArray(counter);
-		insertionSort(counts, new DataCountStringComparator());
-		System.out.print("Total words = ");
 	}
 }

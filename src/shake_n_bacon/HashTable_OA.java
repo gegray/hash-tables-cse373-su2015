@@ -27,7 +27,7 @@ public class HashTable_OA extends DataCounter {
       comp = c;
 		hashr = h;
 		primesList = new int[]{13, 29, 61, 127, 257, 521, 1049, 2099, 4201, 8419,
-                             16843, 33703, 67409, 134837, 269683};
+                             16843, 33703, 67409, 134837, 269683, 539389};
       primesListIndex = 0;
       hashTable = new DataCount[primesList[primesListIndex]];
       size = 0;

@@ -50,7 +50,7 @@ public class HashTable_SC extends DataCounter {
 		
 		//Create a list of primes from resizing and hashing
 		primesList = new int[]{13, 29, 61, 127, 257, 521, 1049, 2099, 4201, 8419,
-   				16843, 33703, 67409, 134837, 269683};
+   				16843, 33703, 67409, 134837, 269683, 539389};
 		
 		//Create the hash table and update the list position for the
 		//list of primes
